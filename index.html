@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prompt Library</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="header">
+        <div class="header__row">
+          <div>
+            <h1 class="logo">Prompt Library</h1>
+            <p class="tagline">Store and reuse your best prompts locally</p>
+          </div>
+          <div class="data-actions" role="group" aria-label="Backup and restore">
+            <button type="button" id="btn-export" class="btn btn-secondary">
+              Export
+            </button>
+            <button type="button" id="btn-import" class="btn btn-secondary">
+              Import
+            </button>
+            <input
+              id="import-file"
+              type="file"
+              accept="application/json,.json"
+              hidden
+              aria-hidden="true"
+            />
+          </div>
+        </div>
+      </header>
+
+      <main class="main">
+        <section class="panel form-panel" aria-labelledby="form-heading">
+          <h2 id="form-heading" class="panel-title">New prompt</h2>
+          <form id="prompt-form" class="prompt-form" novalidate>
+            <div class="field">
+              <label for="prompt-title">Title</label>
+              <input
+                id="prompt-title"
+                name="title"
+                type="text"
+                autocomplete="off"
+                placeholder="e.g. Code review checklist"
+                required
+              />
+            </div>
+            <div class="field">
+              <label for="prompt-model">Model</label>
+              <input
+                id="prompt-model"
+                name="model"
+                type="text"
+                autocomplete="off"
+                maxlength="100"
+                placeholder="e.g. GPT-4o, Claude 3.5 Sonnet"
+                required
+              />
+            </div>
+            <div class="field">
+              <label for="prompt-content">Content</label>
+              <textarea
+                id="prompt-content"
+                name="content"
+                rows="8"
+                placeholder="Paste or write your prompt here…"
+                required
+              ></textarea>
+            </div>
+            <div class="field field--checkbox">
+              <label class="checkbox-label">
+                <input
+                  id="prompt-is-code"
+                  name="isCode"
+                  type="checkbox"
+                />
+                Content is primarily code
+              </label>
+            </div>
+            <button type="submit" class="btn btn-primary">Save prompt</button>
+          </form>
+        </section>
+
+        <section class="panel list-panel" aria-labelledby="list-heading">
+          <div class="list-panel__head">
+            <h2 id="list-heading" class="panel-title">Saved prompts</h2>
+            <div class="list-toolbar">
+              <label for="sort-select" class="list-toolbar__label">Sort</label>
+              <select id="sort-select" class="sort-select" aria-label="Sort saved prompts">
+                <option value="newest">Newest first</option>
+                <option value="rating-desc">Highest rated</option>
+                <option value="unrated-first">Unrated first</option>
+              </select>
+            </div>
+          </div>
+          <div id="prompt-list" class="prompt-list" role="list"></div>
+          <p id="empty-state" class="empty-state" hidden>No prompts yet. Add one above.</p>
+        </section>
+      </main>
+    </div>
+
+    <div
+      id="import-modal"
+      class="import-modal"
+      hidden
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="import-modal-title"
+    >
+      <div class="import-modal__backdrop" data-import-dismiss></div>
+      <div class="import-modal__panel">
+        <h2 id="import-modal-title" class="import-modal__title">Import prompts</h2>
+        <p id="import-modal-summary" class="import-modal__summary"></p>
+        <p id="import-modal-duplicates" class="import-modal__duplicates" hidden></p>
+        <fieldset class="import-modal__fieldset">
+          <legend class="import-modal__legend">How should we handle your data?</legend>
+          <label class="import-modal__option">
+            <input type="radio" name="import-mode" value="merge-skip" checked />
+            <span class="import-modal__option-text">
+              <strong>Merge — keep existing</strong>
+              Add new prompts only; skip any with duplicate IDs.
+            </span>
+          </label>
+          <label class="import-modal__option">
+            <input type="radio" name="import-mode" value="merge-overwrite" />
+            <span class="import-modal__option-text">
+              <strong>Merge — overwrite duplicates</strong>
+              Replace local prompts when IDs match; add the rest.
+            </span>
+          </label>
+          <label class="import-modal__option">
+            <input type="radio" name="import-mode" value="replace" />
+            <span class="import-modal__option-text">
+              <strong>Replace all</strong>
+              Remove all current prompts and notes, then import the file.
+            </span>
+          </label>
+        </fieldset>
+        <p id="import-modal-error" class="import-modal__error" role="alert" hidden></p>
+        <div class="import-modal__actions">
+          <button type="button" id="import-cancel" class="btn btn-secondary">
+            Cancel
+          </button>
+          <button type="button" id="import-confirm" class="btn btn-primary">
+            Import
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

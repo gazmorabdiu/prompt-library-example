@@ -50,24 +50,10 @@ There is no build step, package manager, or backend.
 
 ## 3. How to run it
 
-### Option A — Open the file directly
-
 1. Open the project folder on your computer.
 2. Double-click `index.html`, or right-click → **Open with** your browser (Chrome, Edge, Firefox, etc.).
 
-### Option B — Local server (recommended for some browsers)
-
-Some browsers restrict certain APIs when opening files via `file://`. If copy or storage behaves oddly, serve the folder locally:
-
-```bash
-# Python 3
-python -m http.server 8080
-
-# Node (if npx is available)
-npx serve .
-```
-
-Then visit `http://localhost:8080` (or the port shown in the terminal).
+No install or build step is required—the app runs entirely in the browser as plain HTML, CSS, and JavaScript.
 
 ---
 
